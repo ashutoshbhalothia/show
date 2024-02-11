@@ -1,0 +1,4 @@
+com/backend/show/ShowApplication.class
+com/backend/show/service/BaseMongoService.class
+com/backend/show/entity/BaseMongoEntity.class
+com/backend/show/controller/BaseController.class
