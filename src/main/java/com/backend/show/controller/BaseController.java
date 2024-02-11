@@ -16,11 +16,12 @@ public class BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(VerifyError.class);
 
-        @Value("${mongo.username:}")
-        private String mongoUser;
+    @Value("${mongo.username:}")
+    private String mongoUser;
+
     @GetMapping("health-check")
-    public ResponseEntity<String> checkHealth(@RequestParam(defaultValue = "Buddy" , required = false) String name){
+    public ResponseEntity<String> checkHealth(@RequestParam(defaultValue = "Buddy", required = false) String name) {
         logger.info("fine");
-        return new ResponseEntity<>("Hi"+name+"Everything looks good", HttpStatus.OK);
+        return new ResponseEntity<>("Hi" + name + "Everything looks good" + mongoUser, HttpStatus.OK);
     }
 }

@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@PropertySource({
-		"file:${props.dir}/application.properties"
-})
+
 public class ShowApplication {
 
 	public static void main(String[] args) {
