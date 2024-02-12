@@ -19,10 +19,10 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(MongoConfig.class);
 
-    @Value("#{'${mongo.server:localhost}'.split(',')}")
+    @Value("#{'${mongo.server:}'.split(',')}")
     private String server;
 
-    @Value("${mongo.port:27017}")
+    @Value("${mongo.port:}")
     private Integer      port;
 
 //    @Value("${mongo.username:}")
@@ -48,7 +48,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public MongoClient mongoClient() {
-        final ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/local");
+        final ConnectionString connectionString = new ConnectionString("mongodb://"+server+":"+port+"/"+dbName);
         final MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
