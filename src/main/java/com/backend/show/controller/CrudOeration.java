@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @RestController
 public class CrudOeration extends BaseController{
@@ -27,7 +27,7 @@ public class CrudOeration extends BaseController{
     }
 
     @GetMapping("get/all")
-    public ResponseEntity<Collection<UsersDataEntity>> fetchAll(){
+    public ResponseEntity<List<UsersDataEntity>> fetchAll(){
         var response = mongoDbRequestHandler.handleFetchRequest();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

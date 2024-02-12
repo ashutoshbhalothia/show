@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+
+import static com.backend.show.config.CollectionNames.userData;
 
 @Service
 public class UserDataService {
@@ -13,12 +16,12 @@ public class UserDataService {
     private BaseMongoService baseMongoService;
 
 
-    public String saveUser(UsersDataEntity userData) {
-        baseMongoService.save(userData);
+    public String saveUser(UsersDataEntity entity) {
+        baseMongoService.save(entity,userData);
         return "saved succesfully";
     }
 
-    public Collection<UsersDataEntity> fetchAllUsersData() {
-        return baseMongoService.findAll(UsersDataEntity.class);
+    public List<UsersDataEntity> fetchAllUsersData() {
+        return baseMongoService.findAll(UsersDataEntity.class,userData);
     }
 }

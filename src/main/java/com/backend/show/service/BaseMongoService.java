@@ -12,13 +12,13 @@ public class BaseMongoService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void save(Object object){
-        mongoTemplate.save(object);
+    public void save(Object object,String collectionName){
+        mongoTemplate.save(object,collectionName);
     }
 
-    public<T> List<T> findAll(Class<T> clazz){
+    public<T> List<T> findAll(Class<T> clazz,String collectionName){
         try {
-            return mongoTemplate.findAll(clazz);
+            return mongoTemplate.findAll(clazz,collectionName);
         }catch (Exception e){
             return Collections.emptyList();
         }

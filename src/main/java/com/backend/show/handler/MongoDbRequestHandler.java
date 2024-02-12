@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
 
 @Component
 public class MongoDbRequestHandler {
@@ -23,7 +24,7 @@ public class MongoDbRequestHandler {
         return userDataService.saveUser(entity);
     }
 
-    public Collection<UsersDataEntity> handleFetchRequest() {
+    public List<UsersDataEntity> handleFetchRequest() {
         return userDataService.fetchAllUsersData();
     }
 }
