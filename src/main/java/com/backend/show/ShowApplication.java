@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-
+@PropertySource("file:${props.dir}/persistence-mongo.properties")
 public class ShowApplication {
 
 	public static void main(String[] args) {
