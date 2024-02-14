@@ -1,14 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!-- Appenders -->
+    <property name="LOG_BASE_FOLDER" value="/opt/log/syndicate/feed"/>
+    <property name="LOG_FILE_NAME" value="feed"/>
+    <property name="MAX_LOG_FILE_SIZE" value="1024MB"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</Pattern>
+            </layout>
         </encoder>
     </appender>
 
-    <!-- Root Logger -->
-    <root level="INFO">
+    <appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_BASE_FOLDER}/${LOG_FILE_NAME}.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Roll-Over Daily -->
+            <fileNamePattern>${LOG_BASE_FOLDER}/archived/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_LOG_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.springframework.web" level="error" additivity="false">
+        <appender-ref ref="FILE-AUDIT"/>
+    </logger>
+
+    <logger name="com.backend" level="debug" additivity="false">
+        <appender-ref ref="FILE-AUDIT"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="error">
+        <appender-ref ref="FILE-AUDIT"/>
         <appender-ref ref="STDOUT"/>
     </root>
 
