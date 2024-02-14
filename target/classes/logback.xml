@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOG_BASE_FOLDER" value="/opt/log/syndicate/feed"/>
+    <property name="LOG_BASE_FOLDER" value="/opt/log/my-project"/>
     <property name="LOG_FILE_NAME" value="feed"/>
     <property name="MAX_LOG_FILE_SIZE" value="1024MB"/>
 

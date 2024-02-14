@@ -7,7 +7,6 @@ import com.backend.show.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -24,7 +23,7 @@ public class MongoDbRequestHandler {
         return userDataService.saveUser(entity);
     }
 
-    public List<UsersDataEntity> handleFetchRequest() {
-        return userDataService.fetchAllUsersData();
+    public List<UsersDataEntity> handleFetchRequest(String name) {
+        return userDataService.fetchAllUsersData(name);
     }
 }

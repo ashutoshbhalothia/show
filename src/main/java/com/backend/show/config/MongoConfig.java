@@ -34,6 +34,18 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     @Value("${mongo.db.name:}")
     private String dbName;
 
+    private int heartBeatSocketTimeOut  = 10000;
+
+    private int socketTimeout           = 10000;
+
+    private int connectTimeout          = 10000;
+
+    private int heartbeatFrequency      = 10000;
+
+    private int heartBeatConnectTimeout = 10000;
+
+    private int maxConnectionIdleTime   =  10 * 60 * 1000;
+
 //    ServerAddress serverAddress = new ServerAddress(server.trim(), port);
 
     @Override
@@ -48,10 +60,12 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public MongoClient mongoClient() {
-        final ConnectionString connectionString = new ConnectionString("mongodb://"+server+":"+port+"/"+dbName);
-        final MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+        final var connectionString = new ConnectionString("mongodb://"+server+":"+port+"/"+dbName);
+        System.out.println(connectionString);
+        final var mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
+        System.out.println(mongoClientSettings);
         return MongoClients.create(mongoClientSettings);
     }
 

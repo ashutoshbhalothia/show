@@ -26,9 +26,9 @@ public class CrudOeration extends BaseController{
         return new ResponseEntity<>("Hi" + name + "Everything looks good" + mongoUser, HttpStatus.OK);
     }
 
-    @GetMapping("get/all")
-    public ResponseEntity<List<UsersDataEntity>> fetchAll(){
-        var response = mongoDbRequestHandler.handleFetchRequest();
+    @GetMapping("get")
+    public ResponseEntity<List<UsersDataEntity>> fetchAll(@RequestParam(required = false, defaultValue = "") String name){
+        var response = mongoDbRequestHandler.handleFetchRequest(name);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
