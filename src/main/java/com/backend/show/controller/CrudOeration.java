@@ -33,8 +33,20 @@ public class CrudOeration extends BaseController{
     }
 
     @PostMapping("save")
-    public ResponseEntity<String> saveData(@RequestBody UserData userData){
+    public ResponseEntity<Object> saveData(@RequestBody UserData userData){
         var response = mongoDbRequestHandler.handleSaveRequest(userData);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("get/news")
+    public Object getNews(){
+        var response = mongoDbRequestHandler.findAllArticles();
+        return response;
+    }
+
+    @PostMapping("save/list")
+    public ResponseEntity<String> saveMultipleEtries(@RequestBody List<UserData> dataList){
+        var response = mongoDbRequestHandler.handleSaveRequest(dataList);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
