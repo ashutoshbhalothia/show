@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class CrudOeration extends BaseController{
+public class CrudOeration extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CrudOeration.class);
 
@@ -27,25 +27,25 @@ public class CrudOeration extends BaseController{
     }
 
     @GetMapping("get")
-    public ResponseEntity<List<UsersDataEntity>> fetchAll(@RequestParam(required = false, defaultValue = "") String name){
+    public ResponseEntity<List<UsersDataEntity>> fetchAll(@RequestParam(required = false, defaultValue = "") String name) {
         var response = mongoDbRequestHandler.handleFetchRequest(name);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("save")
-    public ResponseEntity<Object> saveData(@RequestBody UserData userData){
+    public ResponseEntity<Object> saveData(@RequestBody UserData userData) {
         var response = mongoDbRequestHandler.handleSaveRequest(userData);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("get/news")
-    public Object getNews(){
+    public Object getNews() {
         var response = mongoDbRequestHandler.findAllArticles();
         return response;
     }
 
     @PostMapping("save/list")
-    public ResponseEntity<String> saveMultipleEtries(@RequestBody List<UserData> dataList){
+    public ResponseEntity<String> saveMultipleEtries(@RequestBody List<UserData> dataList) {
         var response = mongoDbRequestHandler.handleSaveRequest(dataList);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

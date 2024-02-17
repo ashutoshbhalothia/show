@@ -3,14 +3,13 @@ package com.backend.show.handler;
 import com.backend.show.entity.UsersDataEntity;
 import com.backend.show.mapper.UserDataToUserDataEntityMapper;
 import com.backend.show.model.UserData;
+import com.backend.show.service.ExternalClientService;
 import com.backend.show.service.UserDataService;
+import com.backend.show.utils.ExternalCallTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +22,9 @@ public class MongoDbRequestHandler {
 
     @Autowired
     private UserDataService userDataService;
+
+    @Autowired
+    private ExternalClientService externalClientService;
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -39,17 +41,17 @@ public class MongoDbRequestHandler {
         try {
             list = dataList.stream()
                     .map(userData ->
-                            restTemplate.postForObject("http://localhost:8080/start/save", new HttpEntity<>(userData), String.class))
+                                    ExternalCallTemplate.executePOST("http://localhost:8080/start/save",userData,null))
                     .map(s -> {
                         var entity = new UsersDataEntity();
                         entity.setName(s);
                         return entity;
                     })
                     .toList();
-        }catch (Exception e){
-            LOGGER.error("Error occured while saving a list of data ",e);
+        } catch (Exception e) {
+            LOGGER.error("Error occured while saving a list of data ", e);
         }
-        LOGGER.info("Saved successfully with msgs : {}",list);
+        LOGGER.info("Saved successfully with msgs : {}", list);
         return "resp";
     }
 
@@ -58,7 +60,10 @@ public class MongoDbRequestHandler {
     }
 
     public Object findAllArticles() {
-        var httpResponse = restTemplate.execute("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru", HttpMethod.GET, null,null);
-        return httpResponse;
+//        var httpResponse = ExternalCallTemplate.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru");
+        var response = externalClientService.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru",Object.class)
+                .block();
+//        return response.get(HttpStatus.REQUEST_TIMEOUT);
+        return response;
     }
 }
