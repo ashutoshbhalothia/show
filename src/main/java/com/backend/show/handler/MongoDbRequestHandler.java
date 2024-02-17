@@ -1,5 +1,6 @@
 package com.backend.show.handler;
 
+import com.backend.show.config.MyThreadPoolExecutor;
 import com.backend.show.entity.UsersDataEntity;
 import com.backend.show.mapper.UserDataToUserDataEntityMapper;
 import com.backend.show.model.UserData;
@@ -15,9 +16,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Component
-public class MongoDbRequestHandler {
+public class MongoDbRequestHandler extends CompletableFutureHandler{
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDbRequestHandler.class);
 
     @Autowired
@@ -61,9 +63,14 @@ public class MongoDbRequestHandler {
 
     public Object findAllArticles() {
 //        var httpResponse = ExternalCallTemplate.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru");
-        var response = externalClientService.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru",Object.class)
-                .block();
+//        var response =
+//                CompletableFuture
+//                        .supplyAsync(() ->
+//                                externalClientService.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru",Object.class)
+//                                .block()
+//                                , MyThreadPoolExecutor.getExecutor());
 //        return response.get(HttpStatus.REQUEST_TIMEOUT);
-        return response;
+        var response = externalClientService.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru",Object.class).toFuture();
+        return handleCompletableResponse(response,new Object());
     }
 }
