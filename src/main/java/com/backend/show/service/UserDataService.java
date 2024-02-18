@@ -1,6 +1,7 @@
 package com.backend.show.service;
 
 import com.backend.show.entity.UsersDataEntity;
+import com.backend.show.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,13 +20,17 @@ public class UserDataService {
 
 
     public String saveUser(UsersDataEntity entity) {
-        baseMongoService.save(entity,userData);
+        try {
+            baseMongoService.save(entity,userData);
+        }catch (Exception e){
+            throw new CustomException(e.getMessage());
+        }
         return "saved succesfully";
     }
 
     public List<UsersDataEntity> fetchAllUsersData(String name) {
         if (StringUtils.isEmpty(name))
-            return baseMongoService.findAll(UsersDataEntity.class);
+            throw new CustomException("Unable to fetch");
         else{
             Query query = new Query().addCriteria(Criteria.where("name").is(name));
             return (baseMongoService.find(query,UsersDataEntity.class));
