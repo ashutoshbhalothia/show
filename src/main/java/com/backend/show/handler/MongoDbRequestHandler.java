@@ -42,22 +42,8 @@ public class MongoDbRequestHandler extends CompletableFutureHandler{
     }
 
     public String handleSaveRequest(List<UserData> dataList) {
-        List<UsersDataEntity> list = Collections.emptyList();
-        try {
-            list = dataList.stream()
-                    .map(userData ->
-                                    ExternalCallTemplate.executePOST("http://localhost:8080/start/save",userData,null))
-                    .map(s -> {
-                        var entity = new UsersDataEntity();
-                        entity.setName(s);
-                        return entity;
-                    })
-                    .toList();
-        } catch (Exception e) {
-            LOGGER.error("Error occured while saving a list of data ", e);
-        }
-        LOGGER.info("Saved successfully with msgs : {}", list);
-        return "resp";
+        dataList.forEach(userData -> handleSaveRequest(userData));
+        return "saved";
     }
 
     public Object findAllArticles() {
