@@ -1,10 +1,10 @@
 package com.backend.show.model;
 
+import lombok.Builder;
 import lombok.Getter;
-import org.springframework.stereotype.Component;
 
-@Component
 @Getter
+@Builder
 public class UserData {
     private String name;
     private Integer number;

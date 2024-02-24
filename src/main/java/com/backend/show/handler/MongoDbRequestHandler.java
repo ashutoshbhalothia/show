@@ -1,7 +1,7 @@
 package com.backend.show.handler;
 
-import com.backend.show.config.MyThreadPoolExecutor;
 import com.backend.show.entity.UsersDataEntity;
+import com.backend.show.mapper.UserDataEntityToUserDataMapper;
 import com.backend.show.mapper.UserDataToUserDataEntityMapper;
 import com.backend.show.model.UserData;
 import com.backend.show.service.ExternalClientService;
@@ -10,13 +10,10 @@ import com.backend.show.utils.ExternalCallTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Component
 public class MongoDbRequestHandler extends CompletableFutureHandler{
@@ -28,7 +25,8 @@ public class MongoDbRequestHandler extends CompletableFutureHandler{
     @Autowired
     private ExternalClientService externalClientService;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private UserDataEntityToUserDataMapper userDataEntityToUserDataMapper;
 
     @Autowired
     private UserDataToUserDataEntityMapper userDataToUserDataEntityMapper;
@@ -36,6 +34,11 @@ public class MongoDbRequestHandler extends CompletableFutureHandler{
     public String handleSaveRequest(UserData userData) {
         var entity = userDataToUserDataEntityMapper.map(userData);
         return userDataService.saveUser(entity);
+    }
+
+    public List<UserData> handleFetchRequest(String name) {
+        var entity = userDataService.fetchUsersData(name);
+        return userDataEntityToUserDataMapper.map(entity);
     }
 
     public String handleSaveRequest(List<UserData> dataList) {
@@ -55,10 +58,6 @@ public class MongoDbRequestHandler extends CompletableFutureHandler{
         }
         LOGGER.info("Saved successfully with msgs : {}", list);
         return "resp";
-    }
-
-    public List<UsersDataEntity> handleFetchRequest(String name) {
-        return userDataService.fetchAllUsersData(name);
     }
 
     public Object findAllArticles() {

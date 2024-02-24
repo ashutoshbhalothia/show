@@ -28,12 +28,12 @@ public class UserDataService {
         return "saved succesfully";
     }
 
-    public List<UsersDataEntity> fetchAllUsersData(String name) {
+    public List<UsersDataEntity> fetchUsersData(String name) {
         if (StringUtils.isEmpty(name))
             throw new CustomException("Unable to fetch");
         else{
             Query query = new Query().addCriteria(Criteria.where("name").is(name));
-            return (baseMongoService.find(query,UsersDataEntity.class));
+            return baseMongoService.find(query,UsersDataEntity.class);
         }
     }
 }
