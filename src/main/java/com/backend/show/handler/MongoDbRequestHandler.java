@@ -55,7 +55,7 @@ public class MongoDbRequestHandler extends CompletableFutureHandler{
 //                                .block()
 //                                , MyThreadPoolExecutor.getExecutor());
 //        return response.get(HttpStatus.REQUEST_TIMEOUT);
-        var response = externalClientService.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru",Object.class).toFuture();
+        var response = externalClientService.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru",Object.class);
         return handleCompletableResponse(response,new Object());
     }
 }
