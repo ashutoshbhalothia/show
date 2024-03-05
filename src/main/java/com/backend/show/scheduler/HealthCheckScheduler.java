@@ -14,7 +14,7 @@ public class HealthCheckScheduler {
     @Value("${health.check.cron:false}")
     private Boolean healthCheckSchedulerEnabled;
 
-    @Scheduled(cron = "0 0/1 * 1/1 * ?")
+    @Scheduled(cron = "0 0/30 * 1/1 * ?")
     public void scheduleHealthCheck(){
         if (!healthCheckSchedulerEnabled){
             LOGGER.info("Health-Check scheduler Disabled");

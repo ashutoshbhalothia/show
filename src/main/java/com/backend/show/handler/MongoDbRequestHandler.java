@@ -1,35 +1,33 @@
 package com.backend.show.handler;
 
-import com.backend.show.entity.UsersDataEntity;
 import com.backend.show.mapper.UserDataEntityToUserDataMapper;
 import com.backend.show.mapper.UserDataToUserDataEntityMapper;
 import com.backend.show.model.UserData;
 import com.backend.show.service.ExternalClientService;
 import com.backend.show.service.UserDataService;
-import com.backend.show.utils.ExternalCallTemplate;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class MongoDbRequestHandler extends CompletableFutureHandler{
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDbRequestHandler.class);
 
-    @Autowired
-    private UserDataService userDataService;
+    @Value("${news.feed.url:}")
+    private String url;
 
-    @Autowired
-    private ExternalClientService externalClientService;
+    private final UserDataService userDataService;
 
-    @Autowired
-    private UserDataEntityToUserDataMapper userDataEntityToUserDataMapper;
+    private final ExternalClientService externalClientService;
 
-    @Autowired
-    private UserDataToUserDataEntityMapper userDataToUserDataEntityMapper;
+    private final UserDataEntityToUserDataMapper userDataEntityToUserDataMapper;
+
+    private final UserDataToUserDataEntityMapper userDataToUserDataEntityMapper;
 
     public String handleSaveRequest(UserData userData) {
         var entity = userDataToUserDataEntityMapper.map(userData);
@@ -55,7 +53,7 @@ public class MongoDbRequestHandler extends CompletableFutureHandler{
 //                                .block()
 //                                , MyThreadPoolExecutor.getExecutor());
 //        return response.get(HttpStatus.REQUEST_TIMEOUT);
-        var response = externalClientService.executeGET("https://nprssfeeds.indiatimes.com/inlinegalleries.cms?&order=1&feedSection=news&feedtype=sjson&debug=tru",Object.class);
+        var response = externalClientService.executeGET(url,Object.class);
         return handleCompletableResponse(response,new Object());
     }
 }

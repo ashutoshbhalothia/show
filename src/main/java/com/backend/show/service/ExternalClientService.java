@@ -17,7 +17,7 @@ public class ExternalClientService {
         this.webClient = webClient;
     }
 
-    public<T> CompletableFuture<T> executePOST(String name,String url,Class<T> clazz) {
+    public <T> CompletableFuture<T> executePOST(String name, String url, Class<T> clazz) {
 
         return webClient.post()
                 .uri(url)
@@ -27,7 +27,7 @@ public class ExternalClientService {
                 .toFuture();
     }
 
-    public<U,T> Iterable<T> executePOSTgetList(U request, String url, Class<T> clazz) {
+    public <U, T> Iterable<T> executePOSTgetList(U request, String url, Class<T> clazz) {
 
         return webClient.post()
                 .uri(url)
@@ -37,7 +37,7 @@ public class ExternalClientService {
                 .toIterable();
     }
 
-    public<T> CompletableFuture<T> executeGET(String url, Class<T> clazz) {
+    public <T> CompletableFuture<T> executeGET(String url, Class<T> clazz) {
 
         return webClient.get()
                 .uri(url)
@@ -46,7 +46,7 @@ public class ExternalClientService {
                 .toFuture();
     }
 
-    public<T> Iterable<T> executeGETgetList(String url,Class<T> clazz) {
+    public <T> Iterable<T> executeGETgetList(String url, Class<T> clazz) {
 
         return webClient.get()
                 .uri(url)
