@@ -9,8 +9,8 @@ public class UserDataToUserDataEntityMapper {
 
     public UsersDataEntity map(UserData userData){
         UsersDataEntity entity = new UsersDataEntity();
-        entity.setName(userData.getName());
-        entity.setNnumber(userData.getNumber());
+        entity.setName(userData.name());
+        entity.setNnumber(userData.number());
         return entity;
     }
 }

@@ -14,11 +14,11 @@ public class UserDataEntityToUserDataMapper {
                 entities
                         .parallelStream()
                         .map(entity ->
-                                UserData
-                                .builder()
-                                .name(entity.getName())
-                                .number(entity.getNnumber())
-                                .build())
+                                new  UserData(
+                                entity.getName(),
+                                entity.getNnumber()
+                                )
+                        )
                         .toList();
     }
 }
